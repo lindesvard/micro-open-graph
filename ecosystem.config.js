@@ -20,7 +20,7 @@ module.exports = {
       port: "22123",
       ref: "origin/master",
       repo: "git@github.com:lindesvard/micro-open-graph.git",
-      path: "/home/web/services/chat",
+      path: "/home/web/services/micro-open-graph",
       "post-deploy":
         "yarn install --production=false && pm2 startOrRestart ecosystem.config.js"
     }
