@@ -4,7 +4,7 @@
   "description": "A tiny Node.js microservice to scrape open graph data with joy.",
   "main": "index.js",
   "scripts": {
-    "start": "micro -l tcp://0.0.0.0:${PORT-3010}",
+    "start": "micro -l tcp://0.0.0.0:3010",
     "dev": "nodemon --exec \"npm start\" -e \"js\"",
     "test": "standard",
     "deploy:prod:setup": "pm2 deploy ecosystem.config.js production setup",
