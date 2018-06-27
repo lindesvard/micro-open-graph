@@ -1,24 +1,24 @@
 const { parse } = require("url");
-const { send } = require("micro");
+const micro = require("micro");
 const got = require("got");
 const metascraper = require("metascraper");
 const cache = require("memory-cache");
 
 const TWENTY_FOUR_HOURS = 86400000 * 3;
 
-module.exports = async (req, res) => {
+const server = micro(async (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
 
   const {
     query: { url }
   } = parse(req.url, true);
   if (!url)
-    return send(res, 401, {
+    return micro.send(res, 401, {
       message: "Please supply an URL to be scraped in the url query parameter."
     });
 
   const cachedResult = cache.get(url);
-  if (cachedResult) return send(res, 200, cachedResult);
+  if (cachedResult) return micro.send(res, 200, cachedResult);
 
   let statusCode, data;
   try {
@@ -35,7 +35,9 @@ module.exports = async (req, res) => {
     };
   }
 
-  send(res, statusCode, data);
+  micro.send(res, statusCode, data);
   // Cache results for 24 hours
   cache.put(url, data, TWENTY_FOUR_HOURS);
-};
+});
+
+server.listen(3010, () => console.log("Listening on http://localhost:3010"));
